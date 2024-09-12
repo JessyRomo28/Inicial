@@ -1,8 +1,12 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import cors from "cors";
+import express from "express";
+import dotenv from "dotenv";
+import {test} from "./Backend/controllers/user.controller.js";
+dotenv.config();
 
-const url_bd= "mongodb://localhost:27017/Utma"
 
-mongoose.connect(url_bd)
+mongoose.connect(process.env.urlbd)
 .then(()=>{
     console.log("Funciona la conexión de la base de datos")
 })
@@ -10,19 +14,13 @@ mongoose.connect(url_bd)
     console.log("no funciona la conexión a la base de datos", error)
 })
 
+const app=express();
+app.use(cors())
 
-const Esquema1 = new mongoose.Schema({
-    name: {
-        type: String
-    },
-    edad:{
-        type: Number
-    }
+app.listen(4003, ()=>
+{
+    console.log("Ecuchando tu servidor correctamente")
 })
 
-const modelo1 = new mongoose.model("tabla de usuarios", Esquema1)
 
-modelo1.create({
-    name: "Pablito",
-    edad: 23
-})
+test()
